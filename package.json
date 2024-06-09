@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "firebase": "^10.12.2",
+    "google-auth-library": "^9.10.0",
+    "googleapis": "^140.0.0",
     "vue": "^3.2.13"
   },
   "devDependencies": {
