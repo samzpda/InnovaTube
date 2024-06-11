@@ -15,9 +15,9 @@
               <p class="card-text"><small class="text-muted">{{ new Date(video.snippet.publishedAt).toLocaleDateString() }}</small></p>
               <button
                 class="btn btn-outline-primary position-absolute top-0 end-0 m-2"
-                @click="toggleSelection(video.id.videoId)"
+                @click="toggleSelection(video)"
               >
-                <i class="bi" :class="selectedVideos.includes(video.id.videoId) ? 'bi-check-circle-fill' : 'bi-check-circle'"></i>
+                <i class="bi" :class="isSelected(video) ? 'bi-check-circle-fill' : 'bi-check-circle'"></i>
               </button>
             </div>
           </div>
@@ -33,12 +33,9 @@ import { ref, onMounted } from 'vue';
 import { setDoc, getDoc, doc } from '../api/firebase.js';
 import { db, auth } from '../api/firebase.js';
 
-
 export default {
   name: 'HomePage',
-  components: {
-    
-  },
+  components: {},
   setup() {
     const query = ref('');
     const videos = ref([]);
@@ -78,12 +75,17 @@ export default {
     };
 
     const toggleSelection = (video) => {
-      if (selectedVideos.value.some(v => v.id.videoId === video.id.videoId)) {
-        selectedVideos.value = selectedVideos.value.filter(v => v.id.videoId !== video.id.videoId);
+      const videoIndex = selectedVideos.value.findIndex(v => v.id.videoId === video.id.videoId);
+      if (videoIndex !== -1) {
+        selectedVideos.value.splice(videoIndex, 1);
       } else {
         selectedVideos.value.push(video);
       }
       saveSelections();
+    };
+
+    const isSelected = (video) => {
+      return selectedVideos.value.some(v => v.id.videoId === video.id.videoId);
     };
 
     onMounted(() => {
@@ -95,7 +97,8 @@ export default {
       videos,
       selectedVideos,
       searchVideos,
-      toggleSelection
+      toggleSelection,
+      isSelected
     };
   }
 };
