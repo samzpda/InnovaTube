@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/HomePage.vue';
 import MyFavoritos from '../components/Favoritos.vue';
 import login from '../components/Login.vue';
+import register from '../components/Register.vue';
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/Login',
     name: 'LoginAuth',
     component: login
+  },
+  {
+    path: '/Register',
+    name: 'RegisterAuth',
+    component: register
   }
 ];
 

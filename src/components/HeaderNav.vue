@@ -14,29 +14,85 @@
           <Router-Link to="/favoritos" class="nav-link active" aria-current="page" >favoritos</Router-Link>
         </li>
       </ul>
-      <form class="d-flex justify-content-center w-100" role="search">
-        <div class="container-fluid">
-    <div class="d-flex justify-content-center w-100">
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Buscador" aria-label="Search" v-model="query" @keyup.enter="searchVideos">
-        <button @click="searchVideos" class="btn btn-outline-success" >Buscar</button>
-      </form>
-    </div>
-  </div>
-      </form>
-      <a href="#" class="login-button">Iniciar sesion</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-togger-icon"></span>
-      </button>
+      
+        
+          <div v-if="user">
+            <p>Bienvenido, {{ maskedEmail }}</p>
+            <button class="Logout" @click="logout">Cerrar Sesión</button>
+          </div>
+          <div v-else>
+            <Router-Link to="/Login" class="login-button" href="#">Iniciar sesion</Router-Link>
+            
+            <span class="navbar-togger-icon"></span>
+      
+          </div>
     </div>
   </div>
 </nav>
 </template>
 
 <script>
-  export default{
-    name: 'HeaderNav'
-  }
+import { auth } from '../api/firebase.js';
+import youtubeApi from '../api/youtube';
+
+export default {
+  name: 'HeaderNav',
+  data() {
+    return {
+      user: null,
+      email: '',
+      password: '',
+    };
+  },
+  created() {
+    auth.onAuthStateChanged((user) => {
+      this.user = user;
+    });
+  },
+  methods: {
+    //          Api de youtube
+    async searchVideos() {
+      try {
+        const response = await youtubeApi.get('/search', {
+          params: {
+            q: this.query
+          }
+        });
+        this.videos = response.data.items;
+      } catch (error) {
+        console.error('Error fetching videos', error);
+      }
+    },
+    //             Firebase Auth
+    async login() {
+      try {
+        await auth.signInWithEmailAndPassword(this.email, this.password);
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+      }
+    },
+    computed: {
+    maskedEmail() {
+      if (this.user && this.user.email) {
+        const email = this.user.email;
+        const [userPart, domainPart] = email.split('@');
+        const maskedUserPart = userPart.slice(0, 2) + '****' + userPart.slice(-1);
+        const maskedDomainPart = domainPart.slice(0, 1) + '****' + domainPart.slice(-4);
+        return maskedUserPart + '@' + maskedDomainPart;
+      }
+      return '';
+    },
+  },
+    async logout() {
+      try {
+        await auth.signOut();
+      } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+      }
+    },
+  },
+};
+
 </script>
 
 <style lang="scss" scoper>
@@ -52,6 +108,16 @@
     color: #fff;
     font-size: 14px;
     padding: 8px 20px;
+    border-radius: 60px;
+    text-decoration: none;
+    transition: 0.3s background-color;
+}
+
+.Logout{
+    background-color: $color1;
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 30px;
     border-radius: 60px;
     text-decoration: none;
     transition: 0.3s background-color;

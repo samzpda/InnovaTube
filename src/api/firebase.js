@@ -1,12 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getFunctions } from 'firebase/functions';
-import { getMessaging } from 'firebase/messaging';
-import { getStorage } from 'firebase/storage';
 import { getAnalytics } from 'firebase/analytics';
-import { getRemoteConfig } from 'firebase/remote-config';
-import { getPerformance } from 'firebase/performance';
+
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,17 +21,22 @@ const firebaseConfig = {
   measurementId: "G-7SVXG4ZF6F"
 };
 
+const login = async (email, password) => {
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (error) {
+    console.error('Error logging in user:', error);
+    throw error;
+  }
+};
+
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
 // Inicializar servicios de Firebase
 const auth = getAuth(app);
-const firestore = getFirestore(app);
-const functions = getFunctions(app);
-const messaging = getMessaging(app);
-const storage = getStorage(app);
+const db = getFirestore(app);
 const analytics = getAnalytics(app);
-const remoteConfig = getRemoteConfig(app);
-const performance = getPerformance(app);
 
-export { auth, firestore, functions, messaging, storage, analytics, remoteConfig, performance };
+export default login;
+export { auth, db, analytics, doc, getDoc, setDoc };
