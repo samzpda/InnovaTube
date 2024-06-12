@@ -1,12 +1,16 @@
 <template>
   <div>
-    <input v-model="query" placeholder="Search YouTube" @keyup.enter="searchVideos">
-    <button @click="searchVideos">Search</button>
+    <div class="d-flex justify-content-center ">
+      <div class="input-group pt-3 mb-3 w-50">
+        <input class="form-control rounded" v-model="query" placeholder="Buscar Youtube" @keyup.enter="searchVideos" aria-label="Search" aria-describedby="search-addon">
+        <button class="btn btn-outline-primary" @click="searchVideos" data-mdb-ripple-init>Buscar</button>
+      </div>
+    </div>
     <div v-if="videos.length">
-      <h3>Search Results:</h3>
-      <ul>
-        <li v-for="video in videos" :key="video.id.videoId">
-          <div class="card mb-4 position-relative" style="width: 18rem;">
+      <h3 class="pt-3">Resultados:</h3>
+      <div class="grid p-5">
+        <div class="grid-item" v-for="video in videos" :key="video.id.videoId">
+          <div class="card mb-1 position-relative" style="width: 20rem;">
             <img :src="video.snippet.thumbnails.high.url" class="card-img-top" :alt="video.snippet.title">
             <div class="card-body">
               <h5 class="card-title">{{ video.snippet.title }}</h5>
@@ -21,8 +25,8 @@
               </button>
             </div>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -116,5 +120,15 @@ export default {
 .btn-warning {
   color: yellow;
   border: none;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 16px;
+}
+
+.grid-item {
+  display: flex;
+  justify-content: center;
 }
 </style>

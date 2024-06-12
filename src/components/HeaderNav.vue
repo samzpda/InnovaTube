@@ -1,7 +1,7 @@
 <template>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg fs-6" style="background-color: #c1d9d0; border-radius: 10px">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">InnovaTube</a>
+    <a class="navbar-brand fs-4" href="#">InnovaTube</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,8 +16,10 @@
       </ul>
       
         
+          <div v-if="user" >
+            <p>Bienvenido, {{ maskedEmail() }}</p>
+          </div>
           <div v-if="user">
-            <p>Bienvenido, {{ maskedEmail }}</p>
             <button class="Logout" @click="logout">Cerrar Sesión</button>
           </div>
           <div v-else>
@@ -71,18 +73,18 @@ export default {
         console.error('Error al iniciar sesión:', error);
       }
     },
-    computed: {
+    
     maskedEmail() {
-      if (this.user && this.user.email) {
+      if (this.user.email) {
         const email = this.user.email;
         const [userPart, domainPart] = email.split('@');
         const maskedUserPart = userPart.slice(0, 2) + '****' + userPart.slice(-1);
-        const maskedDomainPart = domainPart.slice(0, 1) + '****' + domainPart.slice(-4);
+        const maskedDomainPart = domainPart.slice(0, 0) + '****' + domainPart.slice(-4);
         return maskedUserPart + '@' + maskedDomainPart;
       }
       return '';
     },
-  },
+  
     async logout() {
       try {
         await auth.signOut();
