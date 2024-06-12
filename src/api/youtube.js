@@ -1,15 +1,17 @@
 import axios from 'axios';
 
-// Configura Axios con la URL base y parámetros comunes
+// Configuracion de axios para api de youtube
 const youtubeApi = axios.create({
   baseURL: 'https://www.googleapis.com/youtube/v3',
   params: {
-    key: 'AIzaSyCxXKVWDn93SKj2trtsQq0DnBCwX3BAHe4', // Reemplaza esto con tu clave de API de YouTube
+    key: 'AIzaSyB4YBksW7wvMS1PP8TcvTzAfz1vmBYIJOw', 
     part: 'snippet',
-    maxResults: 5
+    maxResults: 5 //resultado maximos de videos
   }
 });
 
+
+//Indicador de limite de usos de api
 youtubeApi.interceptors.response.use(
   response => response,
   error => {

@@ -73,7 +73,7 @@ export default {
         console.error('Error al iniciar sesión:', error);
       }
     },
-    
+    //Censura Email
     maskedEmail() {
       if (this.user.email) {
         const email = this.user.email;
@@ -84,7 +84,7 @@ export default {
       }
       return '';
     },
-  
+  //Cerrar sesion
     async logout() {
       try {
         await auth.signOut();

@@ -67,6 +67,7 @@
     };
   },
     methods: {
+      //Inicio de sesion con email y password
       async loginUser() {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
@@ -79,6 +80,7 @@
           alert('Error al iniciar sesión: ' + error.message);
         }
       },
+      //Inicio de sesion con google
       async loginWithGoogle() {
         try {
           const provider = new GoogleAuthProvider();

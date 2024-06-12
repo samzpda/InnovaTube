@@ -4,6 +4,8 @@ import MyFavoritos from '../components/Favoritos.vue';
 import login from '../components/Login.vue';
 import register from '../components/Register.vue';
 
+// rutas para componentes
+
 const routes = [
   {
     path: '/',

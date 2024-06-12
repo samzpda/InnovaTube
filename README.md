@@ -22,3 +22,13 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+Api's que fueron integradas:
+Youtube v3
+Firebase
+
+Frameworks usados:
+Bootstrap 5
+Vue cli
+
+

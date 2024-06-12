@@ -87,12 +87,12 @@ export default {
         console.log('Usuario registrado en Firebase Authentication:', user);
 
         
-        
+        //Registra datos en base de datos
         const newUserInfo = {
           nombreApellido: this.nombreApellido,
           nombreUsuario: this.nombreUsuario,
           correo: this.correo
-          // Otros campos que desees agregar
+          
         };
         await push(ref(database, 'users'), newUserInfo);
 
